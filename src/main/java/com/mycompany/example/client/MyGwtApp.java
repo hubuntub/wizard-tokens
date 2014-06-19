@@ -47,12 +47,18 @@ public class MyGwtApp implements EntryPoint {
 
     // We can add style names to widgets
     sendButton.addStyleName("sendButton");
+    VerticalPanel verticalPanel = new VerticalPanel();
+    verticalPanel.setWidth("100%");
+    verticalPanel.setHeight("100%");
+    ClassificationWizard wizard = new ClassificationWizard();
+    wizard.build();
 
+    verticalPanel.add(wizard);
     // Add the nameField and sendButton to the RootPanel
     // Use RootPanel.get() to get the entire body element
-    RootPanel.get("nameFieldContainer").add(nameField);
-    RootPanel.get("sendButtonContainer").add(sendButton);
-    RootPanel.get("errorLabelContainer").add(errorLabel);
+    RootPanel.get("nameFieldContainer").add(verticalPanel);
+    //RootPanel.get("sendButtonContainer").add(sendButton);
+    //RootPanel.get("errorLabelContainer").add(errorLabel);
 
     // Focus the cursor on the name field when the app loads
     nameField.setFocus(true);
