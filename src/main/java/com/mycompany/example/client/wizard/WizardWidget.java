@@ -7,89 +7,81 @@ import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.mycompany.example.client.tokens.TokenField;
+import com.mycompany.example.client.tokens.TokenLayout;
+import com.mycompany.example.shared.MyCompanyEvent;
 
 public abstract class WizardWidget extends Composite implements
 		WizardProgressHandler {
 
-	private HandlerManager handlerManager;
 
 	private static final String WIZARD_WIDGET = "wizard-widget";
 	private VerticalPanel mainPanel = new VerticalPanel();
 	protected List<WizardStep> steps = new ArrayList<WizardStep>();
 	protected final Map<String, WizardStep> idMap = new HashMap<String, WizardStep>();
 
+	protected TokenLayout layout = new TokenLayout();
 	protected WizardStep currentStep;
 	private int indexStep = 0;
 
 	public WizardWidget() {
-		handlerManager = new HandlerManager(this);
 		mainPanel.setHeight("100%");
 		mainPanel.addStyleName(WIZARD_WIDGET);
+		layout.setHeight("50px");
+		layout.setWidth("100%");
 		initWidget(mainPanel);
-
+		wireTokens();
+		
 	}
 
 	public void build() {
-		 mainPanel.clear();
-		int indexCurrenStep = steps.indexOf(currentStep);
-		for (int i = 0; i < indexCurrenStep; i++) {
-			WizardStep step = steps.get(i);
-			mainPanel.add(nextOrCancelWidget(step, false));
-		}
-		mainPanel.add(nextOrCancelWidget(currentStep));
-
+		 updatePanelWithCurrentStep();
+		
 	}
 
-	private Widget nextOrCancelWidget(WizardStep step) {
-		return nextOrCancelWidget(step, true);
+	private void updatePanelWithCurrentStep() {
+		mainPanel.clear();
+		 mainPanel.add(layout);
+		 mainPanel.add(getWidget(currentStep));
 	}
 
-	private Widget nextOrCancelWidget(final WizardStep step, boolean next) {
+	private void wireTokens() {
+		MyCompanyEvent.BUS.addHandler(WizardAdvanceEvent.TYPE, new WizardAdvanceHandler() {
+			
+			@Override
+			public void advance(WizardAdvanceEvent event) {
+				WizardStep step = event.getStep();
+				TokenField tokenField = step.getTokenField();
+				if (tokenField != null && !tokenField.getText().equals("")){
+					layout.addToken(tokenField);	
+				}
+				advanceStep(step);
+			}
+		});
+	}
+
+
+
+	private Widget getWidget(final WizardStep step) {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setWidth("100%");
-		if (next) {
-			Widget w = step.getContentStep();
+			Widget w = step.getAllWidget();
 			w.setWidth("100%");
 			w.setHeight("100%");
 			horizontalPanel.add(w);
-		} else {
-			Widget w = step.getContentNextStep();
-			w.setWidth("100%");
-			w.setHeight("100%");
-			horizontalPanel.add(w);
-		}
-		if (next) {
-			Button nextButton = new Button("next");
-			nextButton.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					advanceStep(step);
-					System.out.println(step);
-				}
-			});
-
-			horizontalPanel.add(nextButton);
-			horizontalPanel.setCellVerticalAlignment(nextButton,
-					HasAlignment.ALIGN_TOP);
-		}
 		Button cancelButton = new Button("cancel");
 		cancelButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				cancelStep(step);
-				System.out.println(step);
 			}
 		});
 
@@ -121,12 +113,13 @@ public abstract class WizardWidget extends Composite implements
 	private void activeStep(WizardStep step) {
 
 		currentStep = step;
-
+		updatePanelWithCurrentStep();
+		
 	}
 
 	@Override
 	public void wizardAdvance(WizardAdvanceEvent event) {
-		advanceStep(event.getStep());
+		//advanceStep(event.getStep());
 
 	}
 
@@ -138,7 +131,6 @@ public abstract class WizardWidget extends Composite implements
 			WizardStep newStep = idMap.get(newIndex);
 			if (newStep != null && idMap.containsValue(newStep)) {
 				activeStep(newStep);
-				build();
 			}
 		}
 	}

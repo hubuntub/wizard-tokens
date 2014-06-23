@@ -51,7 +51,6 @@ public class MyGwtApp implements EntryPoint {
     verticalPanel.setWidth("100%");
     verticalPanel.setHeight("100%");
     ClassificationWizard wizard = new ClassificationWizard();
-    wizard.build();
 
     verticalPanel.add(wizard);
     // Add the nameField and sendButton to the RootPanel

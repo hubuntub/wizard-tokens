@@ -8,9 +8,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.mycompany.example.shared.DocType;
 
-public class DocTypeStep implements WizardStep<DocType> {
+public class DocTypeStep extends WizardStep<DocType> {
 
-	private TextBox searchInput = new TextBox();
 
 	@Override
 	public boolean nextStep() {
@@ -38,13 +37,7 @@ public class DocTypeStep implements WizardStep<DocType> {
 		mainPanel.add(label);
 		mainPanel.setWidth("100%");
 		searchInput.setWidth("200px");
-		searchInput.addKeyUpHandler(new KeyUpHandler() {
 
-			@Override
-			public void onKeyUp(final KeyUpEvent event) {
-//				MDMEventBus.BUS.fireEvent(new GlobalSearchEvent());
-			}
-		});
 
 	
 
@@ -53,16 +46,7 @@ public class DocTypeStep implements WizardStep<DocType> {
 		return mainPanel;
 	}
 
-	@Override
-	public Widget getContentNextStep() {
-		HorizontalPanel mainPanel = new HorizontalPanel();
-		mainPanel.setWidth("100%");
-	
-		
-		final Label label = new Label("label nextStep");
-		mainPanel.add(label);
-		return mainPanel;
-	}
+
 
 	@Override
 	public DocType getObject() {
