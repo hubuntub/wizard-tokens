@@ -3,6 +3,7 @@ package com.mycompany.example.client.wizard;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.mycompany.example.client.tokens.TokenField.Color;
 import com.mycompany.example.shared.BusinessObject;
 
 public class BusinessObjectStep extends WizardStep<BusinessObject> {
@@ -45,6 +46,12 @@ public class BusinessObjectStep extends WizardStep<BusinessObject> {
 	public BusinessObject getObject() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return Color.BLUE;
 	}
 
 }
