@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.mycompany.example.client.tokens.TokenField.Color;
 import com.mycompany.example.shared.DocType;
 
 public class DocTypeStep extends WizardStep<DocType> {
@@ -51,6 +52,12 @@ public class DocTypeStep extends WizardStep<DocType> {
 	@Override
 	public DocType getObject() {
 		return null;
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return Color.RED;
 	}
 
 }
