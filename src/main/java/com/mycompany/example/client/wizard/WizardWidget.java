@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.mycompany.example.client.tokens.TokenField;
 import com.mycompany.example.client.tokens.TokenLayout;
-import com.mycompany.example.shared.MyCompanyEvent;
+import com.mycompany.example.shared.MyCompanyEventBus;
 
 public abstract class WizardWidget extends Composite implements
 		WizardProgressHandler {
@@ -53,7 +53,7 @@ public abstract class WizardWidget extends Composite implements
 	}
 
 	private void wireTokens() {
-		MyCompanyEvent.BUS.addHandler(WizardAdvanceEvent.TYPE, new WizardAdvanceHandler() {
+		MyCompanyEventBus.BUS.addHandler(WizardAdvanceEvent.TYPE, new WizardAdvanceHandler() {
 			
 			@Override
 			public void advance(WizardAdvanceEvent event) {

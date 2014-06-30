@@ -32,3 +32,43 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+button.gwt-Button, #wrapper button.gwt-Button { 
+		cursor: pointer;
+		cursor: hand;
+		border: none;
+		/* Disable the button-style */
+		background-color: transparent;
+		background:none;
+		background-image:none;
+		padding: 0px;
+		color: #4784C3;
+		text-decoration: underline;
+	}
+.token {
+    background: rgb(0, 169, 148) linear-gradient(to right, rgba(0, 169, 148, 1) 1%, rgba(0, 84, 166, 1) 100%);
+    position: relative;
+    list-style-type: none; /* drop the bullets */
+    color: white;
+    font-family: Verdana, Arial, Helvetica;
+    font-size: 15pt;
+    padding: 5pt;
+    padding-left: 10pt;
+    line-height: 20pt;
+    width: 200pt;
+}
+
+.token + .token  {
+    margin-top: 6pt; /* This is the spacing between the arrows */
+}
+
+.token:after {
+    content: "";
+    border-left: .5em solid rgb(0, 84, 166); /* This width determines the arrows length */
+    border-top: 15pt solid transparent; /* This width has to be 50% of 'line-height + padding-top + padding-bottom' */
+    border-bottom: 15pt solid transparent; /* Same for this width */
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: -.5em; /* This has to be the same value as 'border-left's width */
+    top: 0;
+}

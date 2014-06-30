@@ -9,7 +9,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.mycompany.example.client.tokens.TokenField;
-import com.mycompany.example.shared.MyCompanyEvent;
+import com.mycompany.example.shared.MyCompanyEventBus;
 
 public abstract class WizardStep<T> {
 	protected TextBox searchInput = new TextBox();
@@ -20,7 +20,7 @@ public abstract class WizardStep<T> {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					MyCompanyEvent.BUS.fireEvent(new WizardAdvanceEvent(WizardStep.this));
+					MyCompanyEventBus.BUS.fireEvent(new WizardAdvanceEvent(WizardStep.this));
 				}
 			}
 
